@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <!--  Form view for Estate Property  -->
+    <record id="view_estate_property_form" model="ir.ui.view">
+        <field name="name">estate.property.form</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <form string="Estate Property">
+                <sheet>
+                    <group>
+                        <field name="name" string="Property Name"/>
+                        <field name="description" string="Description"/>
+                        <field name="property_type_id" string="Property Type"/>
+                        <field name="address" string="Address"/>
+                        <field name="expected_price" string="Expected Price"/>
+                        <field name="selling_price" string="Selling Price"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View for estate.property -->
+    <record id="view_estate_property_tree" model="ir.ui.view">
+        <field name="name">estate.property.tree</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <tree string="Estate Properties">
+                <field name="name"/>
+                <field name="property_type_id"/>
+                <field name="expected_price"/>
+                <field name="selling_price"/>
+            </tree>
+        </field>
+    </record>
+
+     <!-- Action for estate.property -->
+    <record id="action_estate_property" model="ir.actions.act_window">
+        <field name="name">Estate Properties</field>
+        <field name="res_model">estate.property</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_estate_property_tree"/>
+        <field name="help" type="html">
+            <p>
+                List of estate properties.
+            </p>
+        </field>
+    </record>
+
+    <!--  Search  -->
+    <record id="view_property_search" model="ir.ui.view">
+        <field name="name">student.search</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <search string="Search by Name">
+                <field name="name"/>
+                <field name="last_seen"/>
+            </search>
+            <separator/>
+            <filter string="State" name="state" domain="[('active', '=', False)]"/>
+            <group expand="1" string="Group By">
+                <filter string="Property Type" name="property_type" context="{'group_by':'name'}"/>
+            </group>
+        </field>
+    </record>
+</odoo>

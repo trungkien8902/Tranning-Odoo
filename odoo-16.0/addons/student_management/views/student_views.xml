@@ -1,0 +1,71 @@
+<odoo>
+    <!-- Tree View để hiển thị danh sách sinh viên -->
+    <record id="view_student_tree" model="ir.ui.view">
+        <field name="name">student.student.tree</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Tên sinh viên"/>
+                <field name="student_code" string="Mã sinh viên"/>
+                <field name="birthdate"/>
+                <field name="email"/>
+                <field name="phone"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View để hiển thị chi tiết sinh viên -->
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">student.student.form</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="student_code"/>
+                        <field name="name"/>
+                        <field name="display_name" readonly="1"/>
+                        <field name="birthdate"/>
+                        <field name="email"/>
+                        <field name="phone"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action để mở danh sách sinh viên -->
+    <record id="student_action" model="ir.actions.act_window">
+        <field name="name">List Student</field>
+        <field name="res_model">student.student</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_student_search" model="ir.ui.view">
+        <field name="name">student.search</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <search string="Student Search">
+                <field name="name"/>
+                <field name="student_code"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Ngày sinh" name="provider" context="{'group_by':'birthdate'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Menu chính cho quản lý sinh viên -->
+    <menuitem id="student_management_menu"
+              name="Student Management"
+              sequence="10"/>
+
+    <!-- Menu con cho danh sách sinh viên -->
+    <menuitem id="student_menu"
+              name="List Student"
+              parent="student_management_menu"
+              action="student_action" sequence="10"/>
+</odoo>
