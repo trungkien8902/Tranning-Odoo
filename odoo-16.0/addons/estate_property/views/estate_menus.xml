@@ -3,9 +3,12 @@
     <!-- Menu gốc cho quản lý bất động sản -->
     <menuitem id="estate_menu_root" name="Estate Management" sequence="10"/>
 
-    <!-- Menu thứ hai dưới menu gốc -->
-    <menuitem id="estate_menu_properties" name="Properties" parent="estate_menu_root" sequence="20"/>
+    <!-- Menu con cho bất động sản -->
+    <menuitem id="estate_menu_properties" name="Properties" parent="estate_menu_root" action="action_estate_property" sequence="20"/>
 
-    <!-- Menu thứ ba dưới menu Properties, trỏ đến hành động estate.property -->
-    <menuitem id="estate_menu_property_action" name="Manage Properties" parent="estate_menu_properties" action="action_estate_property" sequence="30"/>
+    <!-- Menu con cho loại bất động sản -->
+    <menuitem id="estate_menu_property_type" name="Property Types" parent="estate_menu_root" action="action_estate_property_type" sequence="30"/>
+
+    <!-- Menu con cho thẻ bất động sản -->
+    <menuitem id="estate_menu_property_tags" name="Property Tags" parent="estate_menu_root" action="action_estate_property_tag" sequence="40"/>
 </odoo>
