@@ -20,7 +20,9 @@
                             <field name="state" string="Status"/>
                         </group>
                         <group>
-                            <field name="name" string="Property Name"/>
+                            <field name="garden"/>
+                            <field name="garden_area" attrs="{'invisible': [('garden', '=', False)]}"/>
+                            <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}"/>
                             <field name="living_area" string="Living Area (m²)"/>
                             <field name="garden_area" string="Garden Area (m²)"/>
                             <field name="total_area" string="Total Area (m²)" readonly="1"/>
