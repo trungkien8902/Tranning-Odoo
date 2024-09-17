@@ -34,49 +34,51 @@ Step 2: Create a Python Virtual Environment
 It’s a good practice to create a virtual environment to isolate your Odoo environment.
 
 ```bash
-python3 -m venv odoo-venv
-source odoo-venv/bin/activate
+python -m venv odoo-venv
+.\odoo-venv\Scripts\activate
 ```
+Step 3: Install Python
+Ensure Python 3.7 or higher is installed and properly added to your system's PATH.
 
-Step 3: Install Python Dependencies
+Download Python from Python's official website.
+Ensure you check Add Python to PATH during installation.
+
+Step 4: Install Python Dependencies
 Install the required Python packages using pip:
 
 ```bash
 pip install -r requirements.txt
 ```
-Step 4: Install PostgreSQL
-Ensure that PostgreSQL is installed and running. You can install it using the package manager for your operating system (e.g., apt, yum, brew).
 
-- To install on Ubuntu, for example:
+Step 5: Install PostgreSQL
+Download PostgreSQL from here.
+During installation, note down the PostgreSQL superuser password.
+Create a new PostgreSQL user for Odoo:
 
-```bash
-sudo apt-get update
-sudo apt-get install postgresql postgresql-server-dev-all
+Open pgAdmin or use the SQL Shell (psql).
+Run the following command to create a user named odoo with superuser privileges:
 ```
-- Create a PostgreSQL user for Odoo:
-
-```bash
-sudo -u postgres createuser -s odoo
+sql
+CREATE USER odoo WITH SUPERUSER PASSWORD 'yourpassword';
 ```
-Step 5: Install Node.js Dependencies
-Odoo uses Node.js for its web assets. 
-- Install the necessary packages using either npm or yarn.
 
-```bash
+Step 6: Install Node.js Dependencies
+Install Node.js and npm from the official Node.js website.
+
+After installing Node.js, install necessary packages:
+
+```
+bash
 npm install -g less less-plugin-clean-css
 npm install -g rtlcss
 ```
-- If you are using yarn, install it and run:
 
-```bash
-yarn install
-```
 ## Installation
 Step 1: Configure Odoo
 Create an Odoo configuration file:
 
 ```bash
-cp odoo.conf.example odoo.conf
+copy odoo.conf.example odoo.conf
 ```
 Modify the following fields in odoo.conf:
 
@@ -94,29 +96,40 @@ admin_passwd: The master password for managing databases.
 addons_path: Specify the path to your Odoo addons or custom modules.
 logfile: The location of the Odoo log file.
 ```
+
 Step 2: Build Web Assets (Optional)
-If you're working on the web front-end and need to build web assets, use the following command:
+To build Odoo's web assets, you can use:
 
-```bash
-./odoo-bin --dev=assets
 ```
+bash
+npm install
+```
+If you're developing the web front-end, you can run:
+
+```
+bash
+.\odoo-bin --dev=assets
+```
+
 ## Running Odoo
-- Once everything is installed and configured, you can run Odoo with the following command:
 
-```bash
-./odoo-bin -c odoo.conf
+To run Odoo, use the following command:
 ```
-- Odoo will now run on http://localhost:8069.
-
-- To specify a different port, modify the odoo.conf file or pass the --xmlrpc-port option:
-
-```bash
-./odoo-bin -c odoo.conf --xmlrpc-port=8070
+bash
+.\odoo-bin -c odoo.conf
 ```
-- Accessing Odoo
+Odoo will now be running at http://localhost:8069.
+
+To specify a different port, modify the odoo.conf file or pass the --xmlrpc-port option:
+```
+bash
+.\odoo-bin -c odoo.conf --xmlrpc-port=8070
+```
+
+Accessing Odoo
 Open your web browser and navigate to:
-
 ```
+arduino
 http://localhost:8069
 ```
 You will be prompted to create a new database or select an existing one.
