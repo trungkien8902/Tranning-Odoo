@@ -25,9 +25,10 @@ Before you begin, ensure you have the following prerequisites installed on your 
   
 ## Getting Started
 Step 1: Clone the Odoo Repository
-bash
+```bash
 git clone https://github.com/odoo/odoo.git
 cd odoo
+```
 You can either use the official Odoo repository or your custom project repository if working with a specific project.
 
 Step 2: Create a Python Virtual Environment
@@ -57,8 +58,7 @@ Create a new PostgreSQL user for Odoo:
 
 Open pgAdmin or use the SQL Shell (psql).
 Run the following command to create a user named odoo with superuser privileges:
-```
-sql
+```sql
 CREATE USER odoo WITH SUPERUSER PASSWORD 'yourpassword';
 ```
 
@@ -67,8 +67,7 @@ Install Node.js and npm from the official Node.js website.
 
 After installing Node.js, install necessary packages:
 
-```
-bash
+```bash
 npm install -g less less-plugin-clean-css
 npm install -g rtlcss
 ```
@@ -100,36 +99,31 @@ logfile: The location of the Odoo log file.
 Step 2: Build Web Assets (Optional)
 To build Odoo's web assets, you can use:
 
-```
-bash
+```bash
 npm install
 ```
 If you're developing the web front-end, you can run:
 
-```
-bash
+```bash
 .\odoo-bin --dev=assets
 ```
 
 ## Running Odoo
 
 To run Odoo, use the following command:
-```
-bash
+```bash
 .\odoo-bin -c odoo.conf
 ```
 Odoo will now be running at http://localhost:8069.
 
 To specify a different port, modify the odoo.conf file or pass the --xmlrpc-port option:
-```
-bash
+```bash
 .\odoo-bin -c odoo.conf --xmlrpc-port=8070
 ```
 
 Accessing Odoo
 Open your web browser and navigate to:
-```
-arduino
+```arduino
 http://localhost:8069
 ```
 You will be prompted to create a new database or select an existing one.
