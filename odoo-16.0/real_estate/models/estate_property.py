@@ -2,12 +2,16 @@ from pkg_resources import require
 from odoo import fields, models, api
 from datetime import datetime, timedelta
 
+from odoo.exceptions import UserError
 from odoo.tools.populate import compute
+from odoo.tools.float_utils import float_compare, float_is_zero
+from odoo.exceptions import ValidationError
 
 
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Estate Property"
+    _order = 'id desc'
 
     name = fields.Char(required=True)
     description = fields.Text(string="Description")
@@ -36,7 +40,7 @@ class EstateProperty(models.Model):
         [
             ('new', 'New'),
             ('offer_received', 'Offer Received'),
-            ('offer_accepted', 'Offer Accepted'),
+            # ('offer_accepted', 'Offer Accepted'),
             ('sold', 'Sold'),
             ('canceled', 'Canceled')
         ],
@@ -57,6 +61,26 @@ class EstateProperty(models.Model):
         [('north', 'North'), ('south', 'South'), ('east', 'East'), ('west', 'West')],
         string="Garden Orientation"
     )
+
+    # expected_price: Phải lớn hơn 0.
+    # selling_price: Phải lớn hơn hoặc bằng 0.
+    # property tag name: Phải là duy nhất.
+    _sql_constraints = [
+        ('check_expected_price', 'CHECK(expected_price > 0)', 'The expected price must be strictly positive.'),
+        ('check_selling_price', 'CHECK(selling_price >= 0)', 'The selling price must be positive.'),
+    ]
+
+    #  giá bán (selling price) không được thấp hơn 90% giá kỳ vọng (expected price)
+    @api.constrains('selling_price', 'expected_price')
+    def _check_selling_price(self):
+        for record in self:
+            # Kiểm tra nếu giá bán không phải là 0 (tránh kiểm tra cho giá trị mặc định 0)
+            if not float_is_zero(record.selling_price, precision_digits=2):
+                # So sánh giá bán với 90% của giá kỳ vọng
+                min_selling_price = record.expected_price * 0.9
+                if float_compare(record.selling_price, min_selling_price, precision_digits=2) < 0:
+                    raise ValidationError("The selling price cannot be lower than 90% of the expected price.")
+
 
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
@@ -79,3 +103,19 @@ class EstateProperty(models.Model):
         else:
             self.garden_area = 0
             self.garden_orientation = False
+
+    def action_cancel(self):
+        for record in self:
+            if record.state == 'sold':
+                raise UserError('A sold property cannot be canceled.')
+            record.state = 'canceled'
+
+    def action_offer_received(self):
+        for record in self:
+            record.state = 'offer_received'
+
+    def action_sold(self):
+        for record in self:
+            if record.state == 'canceled':
+                raise UserError('A canceled property cannot be sold.')
+            record.state = 'sold'

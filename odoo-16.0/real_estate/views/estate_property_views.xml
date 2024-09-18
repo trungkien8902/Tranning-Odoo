@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <odoo>
     <!--  Form view for Estate Property  -->
     <record id="view_estate_property_form" model="ir.ui.view">
@@ -8,8 +7,19 @@
         <field name="arch" type="xml">
             <form string="Estate Property">
                 <sheet>
-                    <group>
+                    <header>
+                        <button name="%(action_open_offers)d" string="View Offer" type="action"
+                                class="btn btn-info"/>
+                        <button name="action_offer_received" string="Offer Received" type="object"
+                                class="btn btn-success"
+                                attrs="{'invisible': [('state', '=', ['canceled','sold'])]}"/>
+                        <button name="action_cancel" string="Canceled" type="object"
+                                class="btn btn-secondary"
+                                attrs="{'invisible': [('state', '=', 'sold')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="new,offer_received,sold,cancelled"/>
+                    </header>
 
+                    <group>
                         <group>
                             <field name="name" string="Property Name" groups="base.group_user"/>
                             <field name="description" string="Description"/>
@@ -49,7 +59,7 @@
                             <tree string="Offers">
                                 <field name="price" string="Offer Price"/>
                                 <field name="partner_id" string="Partner"/>
-                                <field name="status" string="Status"/>
+                                <field name="status" string="Status" invisible="1"/>
                                 <field name="validity"/>
                                 <field name="date_deadline"/>
                             </tree>
@@ -57,7 +67,7 @@
                                 <group>
                                     <field name="price" string="Offer Price"/>
                                     <field name="partner_id" string="Partner"/>
-                                    <field name="status" string="Status"/>
+                                    <field name="status" string="Status" invisible="1"/>
                                     <field name="validity"/>
                                     <field name="date_deadline" readonly="1"/>
                                 </group>
@@ -98,90 +108,24 @@
         </field>
     </record>
 
-    <record id="view_estate_property_type_tree" model="ir.ui.view">
-        <field name="name">estate.property.type.tree</field>
-        <field name="model">estate.property.type</field>
-        <field name="arch" type="xml">
-            <tree string="Estate Property Types">
-                <field name="name"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="view_estate_property_type_form" model="ir.ui.view">
-        <field name="name">estate.property.type.form</field>
-        <field name="model">estate.property.type</field>
-        <field name="arch" type="xml">
-            <form string="Estate Property Type">
-                <group>
-                    <field name="name"/>
-                </group>
-            </form>
-        </field>
-    </record>
-
-    <!-- Action for estate.property.type -->
-    <record id="action_estate_property_type" model="ir.actions.act_window">
-        <field name="name">Estate Properties Type</field>
-        <field name="res_model">estate.property.type</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_estate_property_type_tree"/>
-        <field name="help" type="html">
-            <p>
-                List of estate property types.
-            </p>
-        </field>
-    </record>
-
-    <!-- Action for estate.property.tag -->
-    <record id="view_estate_property_tag_tree" model="ir.ui.view">
-        <field name="name">estate.property.type.tree</field>
-        <field name="model">estate.property.type</field>
-        <field name="arch" type="xml">
-            <tree string="Estate Property Types">
-                <field name="name"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="view_estate_property_tag_form" model="ir.ui.view">
-        <field name="name">estate.property.type.form</field>
-        <field name="model">estate.property.type</field>
-        <field name="arch" type="xml">
-            <form string="Estate Property Type">
-                <group>
-                    <field name="name"/>
-                </group>
-            </form>
-        </field>
-    </record>
-
-    <record id="action_estate_property_tag" model="ir.actions.act_window">
-        <field name="name">Estate Properties Tag</field>
-        <field name="res_model">estate.property.tag</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_estate_property_tag_tree"/>
-        <field name="help" type="html">
-            <p>
-                List of estate property tags.
-            </p>
-        </field>
-    </record>
-
-    <!--  Search  -->
+    <!-- Search: Filter and Group by -->
     <record id="view_property_search" model="ir.ui.view">
         <field name="name">estate.search</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
-            <search string="Search by Name">
+            <search string="Search Properties">
+                <!-- Các trường để tìm kiếm -->
                 <field name="name"/>
                 <field name="property_type_id"/>
+
+                <!-- Tạo các bộ lọc -->
+                <filter string="Inactive Properties" name="inactive_properties" domain="[('active', '=', False)]"/>
+
+                <!-- Nhóm theo Property Type -->
+                <group expand="1" string="Group By">
+                    <filter string="Property Type" name="group_by_property_type" context="{'group_by': 'property_type_id'}"/>
+                </group>
             </search>
-            <separator/>
-            <filter string="State" name="state" domain="[('active', '=', False)]"/>
-            <group expand="1" string="Group By">
-                <filter string="Property Type" name="property_type" context="{'group_by':'name'}"/>
-            </group>
         </field>
     </record>
 </odoo>
