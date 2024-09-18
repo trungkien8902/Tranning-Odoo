@@ -2,28 +2,31 @@
 <odoo>
     <!--  Form view for Estate Property  -->
     <record id="view_estate_property_form" model="ir.ui.view">
-        <field name="name">estate.property.form</field>
+        <field name="name">Estate Property Form</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <form string="Estate Property">
-                <sheet>
-                    <header>
-                        <button name="%(action_open_offers)d" string="View Offer" type="action"
-                                class="btn btn-info"/>
-                        <button name="action_offer_received" string="Offer Received" type="object"
-                                class="btn btn-success"
-                                attrs="{'invisible': [('state', '=', ['canceled','sold'])]}"/>
-                        <button name="action_cancel" string="Canceled" type="object"
-                                class="btn btn-secondary"
-                                attrs="{'invisible': [('state', '=', 'sold')]}"/>
-                        <field name="state" widget="statusbar" statusbar_visible="new,offer_received,sold,cancelled"/>
-                    </header>
+                <header>
+                    <button name="%(action_open_offers)d" string="View Offers" type="action"
+                            class="btn btn-info"/>
+                    <button name="action_offer_received" string="Offer Received" type="object"
+                            class="btn btn-success"
+                            attrs="{'invisible': [('state', 'in', ['canceled', 'offer_received', 'sold'])]}"/>
+                    <button name="action_sold" string="Sold" type="object" class="btn btn-success"
+                            attrs="{'invisible': [('state', '!=', 'offer_accepted')]}"/>
+                    <button name="action_cancel" string="Canceled" type="object"
+                            class="btn btn-secondary"
+                            attrs="{'invisible': [('state', '=', 'sold')]}"/>
 
+                    <field name="state" widget="statusbar" statusbar_visible="new,offer_received,offer_accepted,sold,cancelled"/>
+                </header>
+
+                <sheet>
                     <group>
                         <group>
                             <field name="name" string="Property Name" groups="base.group_user"/>
                             <field name="description" string="Description"/>
-                            <field name="property_type_id" string="Property Type"/>
+                            <field name="property_type_id" string="Property Type" options="{'no_create': True, 'no_open': True}"/>
                             <field name="address" string="Address"/>
                             <field name="expected_price" string="Expected Price"/>
                             <field name="selling_price" string="Selling Price"/>
@@ -34,13 +37,13 @@
                             <field name="garden_area" attrs="{'invisible': [('garden', '=', False)]}"/>
                             <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}"/>
                             <field name="living_area" string="Living Area (m²)"/>
-                            <field name="garden_area" string="Garden Area (m²)"/>
+                            <field name="garden_area" string="Garden Area (m²)" attrs="{'invisible': [('garden', '=', False)]}"/>
                             <field name="total_area" string="Total Area (m²)" readonly="1"/>
                             <field name="best_price" string="Best Offer" readonly="1"/>
                         </group>
                     </group>
                     <group>
-                        <field name="tag_ids" widget="many2many_tags"/>
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                     </group>
 
                     <!-- Thêm một tab mới -->
@@ -55,7 +58,7 @@
 
                     <group>
                         <!-- Hiển thị danh sách các đề nghị (offers) -->
-                        <field name="offer_ids">
+                        <field name="offer_ids" attrs="{'readonly': [('state', 'in', ['offer_accepted', 'sold', 'cancelled'])]}">
                             <tree string="Offers">
                                 <field name="price" string="Offer Price"/>
                                 <field name="partner_id" string="Partner"/>
@@ -81,16 +84,19 @@
 
     <!-- Tree View for estate.property -->
     <record id="view_estate_property_tree" model="ir.ui.view">
-        <field name="name">estate.property.tree</field>
+        <field name="name">Estate Property Tree</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
-            <tree string="Estate Properties">
+            <tree string="Estate Properties"
+                  decoration-info="state == 'offer_received'"
+                  decoration-success="state == 'offer_accepted'"
+                  decoration-danger="state == 'sold'">
                 <field name="name"/>
                 <field name="property_type_id"/>
-                <field name="tag_ids" widget="many2many_tags"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="expected_price"/>
+                <field name="state"/>
                 <field name="selling_price"/>
-
             </tree>
         </field>
     </record>

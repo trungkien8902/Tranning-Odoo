@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <odoo>
     <record id="view_estate_property_offer_form" model="ir.ui.view">
-        <field name="name">estate.property.offer.form</field>
+        <field name="name">Estate Property Offer Form</field>
         <field name="model">estate.property.offer</field>
         <field name="arch" type="xml">
             <form string="Estate Property Offer">
                 <header>
+                    <!-- Nút Accept và Refuse sẽ chỉ hiện khi trạng thái là 'pending' -->
                     <button name="action_accept" string="Accept" type="object"
                             class="btn btn-success"
-                            attrs="{'invisible': [('status', '=', 'accepted')]}"/>
+                            attrs="{'invisible': [('status', '!=', 'pending')]}"/>
                     <button name="action_refuse" string="Refuse" type="object"
                             class="btn btn-secondary"
-                            attrs="{'invisible': [('status', '=', 'refused')]}"/>
+                            attrs="{'invisible': [('status', '!=', 'pending')]}"/>
                 </header>
-                <!-- Other form fields go here -->
-                 Add the status field as invisible
                 <group>
+                    <!-- Ẩn trường status -->
                     <field name="status" invisible="1"/>
                     <field name="price"/>
                     <field name="partner_id"/>
@@ -25,12 +24,12 @@
         </field>
     </record>
 
-
     <record id="view_estate_property_offer_tree" model="ir.ui.view">
         <field name="name">Estate Property Offer Tree</field>
         <field name="model">estate.property.offer</field>
         <field name="arch" type="xml">
-            <tree string="Estate Property Offers">
+            <tree string="Estate Property Offers" editable="bottom">
+                <field name="property_id" string="Property"/>
                 <field name="price"/>
                 <field name="partner_id" string="Buyer"/>
                 <field name="status"/>
@@ -43,7 +42,6 @@
         <field name="name">Offers</field>
         <field name="res_model">estate.property.offer</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('property_id', '=', active_id)]</field>
+        <field name="domain">[('property_id', '=', context.get('active_id'))]</field>
     </record>
-
 </odoo>

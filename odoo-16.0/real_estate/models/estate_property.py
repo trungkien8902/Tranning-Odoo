@@ -7,7 +7,6 @@ from odoo.tools.populate import compute
 from odoo.tools.float_utils import float_compare, float_is_zero
 from odoo.exceptions import ValidationError
 
-
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Estate Property"
@@ -40,7 +39,7 @@ class EstateProperty(models.Model):
         [
             ('new', 'New'),
             ('offer_received', 'Offer Received'),
-            # ('offer_accepted', 'Offer Accepted'),
+            ('offer_accepted', 'Offer Accepted'),
             ('sold', 'Sold'),
             ('canceled', 'Canceled')
         ],
