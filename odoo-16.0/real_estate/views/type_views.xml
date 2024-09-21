@@ -19,12 +19,14 @@
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="offer_count" widget="statinfo" icon="fa-tag" string=" Offers"
+                       class="oe_stat_button" type="action" action="action_estate_property_offer"/>
                     </group>
 
                     <notebook>
                         <page string="Properties">
                             <field name="property_ids">
-                                <tree editable="bottom">
+                                <tree>
                                     <field name="name"/>
                                     <field name="expected_price"/>
                                     <field name="selling_price"/>
@@ -52,4 +54,12 @@
             </p>
         </field>
     </record>
+
+    <record id="action_estate_property_offer" model="ir.actions.act_window">
+        <field name="name">Offers</field>
+        <field name="res_model">estate.property.offer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('property_type_id', '=', active_id)]</field>
+    </record>
+
 </odoo>

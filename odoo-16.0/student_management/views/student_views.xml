@@ -1,0 +1,13 @@
+<odoo>
+    <!-- Kế thừa form view sinh viên để thêm button mở liên hệ -->
+    <record id="view_student_form_inherit_partner" model="ir.ui.view">
+        <field name="name">Student Form Partner</field>
+        <field name="model">student.management</field>
+        <field name="inherit_id" ref="student_management.view_student_management_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="after">
+                <button name="action_open_partner_contacts" type="object" string="View Contacts"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

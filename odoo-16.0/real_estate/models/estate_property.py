@@ -118,3 +118,9 @@ class EstateProperty(models.Model):
             if record.state == 'canceled':
                 raise UserError('A canceled property cannot be sold.')
             record.state = 'sold'
+
+    @api.ondelete(at_uninstall=False)
+    def _check_property_deletion(self):
+        for record in self:
+            if record.state not in ['new', 'canceled']:
+                raise UserError("You can only delete properties in 'New' or 'Canceled' state.")

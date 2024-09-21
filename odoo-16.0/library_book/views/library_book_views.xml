@@ -1,0 +1,70 @@
+<odoo>
+    <!-- Kanban View -->
+    <record id="view_library_book_kanban" model="ir.ui.view">
+        <field name="name">Library Book Kanban</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="author"/>
+                <field name="count_student_borrow"/>
+                <field name="student_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <strong><t t-esc="record.name.raw_value"/></strong>
+                            <div>Author: <t t-esc="record.author.raw_value"/></div>
+                            <div>
+                                <t t-if="record.count_student_borrow.raw_value">
+                                    Borrowed by <t t-esc="record.count_student_borrow.raw_value"/> student(s)
+                                </t>
+                                <t t-else="">
+                                    Not borrowed yet.
+                                </t>
+                            </div>
+                            <a type="action" name="%(action_view_students_borrowed)d"
+                                class="btn btn-primary mt8"
+                                context="{'student_id': student_id}">
+                                View Students
+                            </a>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <!-- List View -->
+    <record id="view_library_book_list" model="ir.ui.view">
+        <field name="name">Library Book List</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <tree string="Books">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="author"/>
+                <field name="publish_year"/>
+                <field name="student_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_library_book_form" model="ir.ui.view">
+        <field name="name">Library Book Form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form string="Library Book">
+                <group>
+                    <field name="code" readonly="1"/>
+                    <field name="name"/>
+                    <field name="author"/>
+                    <field name="publish_year"/>
+                    <field name="student_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+</odoo>

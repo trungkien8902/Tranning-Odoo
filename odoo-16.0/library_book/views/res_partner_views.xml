@@ -1,0 +1,8 @@
+<odoo>
+    <record id="action_view_students_borrowed" model="ir.actions.act_window">
+        <field name="name">Students Borrowed</field>
+        <field name="res_model">res.partner</field> <!-- Ensure this points to the correct model -->
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_student', '=', True)]</field>
+    </record>
+</odoo>

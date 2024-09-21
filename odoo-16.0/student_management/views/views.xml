@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_student_management_form" model="ir.ui.view">
+        <field name="name">Student Management Form</field>
+        <field name="model">student.management</field>
+        <field name="arch" type="xml">
+            <form string="Student Management">
+                <sheet>
+                    <group>
+                        <field name="student_code" string="Student Code"/>
+                        <field name="name" string="Full Name"/>
+                        <field name="birthdate" string="Date Of Birth"/>
+                        <field name="display_name" string="Display Name" readonly="1"/>
+                        <field name="email" string="Email"/>
+                        <field name="phone" string="Phone Number"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_student_management_tree" model="ir.ui.view">
+        <field name="name">Student Management Tree</field>
+        <field name="model">student.management</field>
+        <field name="arch" type="xml">
+            <tree string="Student Management">
+                <field name="student_code" string="Student Code"/>
+                <field name="name" string="Full Name"/>
+                <field name="birthdate" string="Date Of Birth"/>
+                <field name="display_name" string="Display Name"/>
+                <field name="email" string="Email"/>
+                <field name="phone" string="Phone Number"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_view_list_students" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">student.management</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_student_search" model="ir.ui.view">
+        <field name="name">Student Search</field>
+        <field name="model">student.management</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="student_code"/>
+                <group expand="1" string="Group By">
+                    <filter string="Birthdate" name="birthdate" context="{'group_by': 'birthdate'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+<!--    <odoo>-->
+<!--    &lt;!&ndash; Search view for student.student &ndash;&gt;-->
+<!--    <record id="view_student_search" model="ir.ui.view">-->
+<!--        <field name="name">Student Management Search</field>-->
+<!--        <field name="model">student.management</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search>-->
+<!--                <field name="name"/>-->
+<!--                <filter string="Borrowed Books" domain="[('borrowed_book_count', '>', 0)]"/>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>

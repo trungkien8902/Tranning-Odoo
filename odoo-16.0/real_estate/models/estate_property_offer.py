@@ -21,6 +21,9 @@ class EstatePropertyOffer(models.Model):
     partner_id = fields.Many2one('res.partner', string="Partner", required=True)
     property_id = fields.Many2one('estate.property', string="Property", required=True)
 
+    property_type_id = fields.Many2one('estate.property.type', related='property_id.property_type_id', store=True,
+                                       string="Property Type")
+
     validity = fields.Integer(default=7, string="Validity (Days)", store=True)
     date_deadline = fields.Date(string="Date Deadline", compute="_compute_date_deadline", inverse="_inverse_date_deadline", store=True)
 
@@ -40,7 +43,7 @@ class EstatePropertyOffer(models.Model):
     def _inverse_date_deadline(self):
         for record in self:
             if record.create_date:
-                date_deadline = (record.date_deadline - record.create_date).days
+                date_deadline = (record.date_deadline - record.create_date.date()).days
                 record.validity = date_deadline
 
     def action_accept(self):
@@ -55,3 +58,19 @@ class EstatePropertyOffer(models.Model):
     def action_refuse(self):
         for record in self:
             record.status = 'refused'
+
+    @api.model
+    def create(self, vals):
+        property_id = vals.get('property_id')
+        if property_id:
+            estate_property = self.env['estate.property'].browse(property_id)
+
+            # Kiểm tra nếu có đề nghị hiện tại nào cao hơn đề nghị mới
+            if estate_property.offer_ids.filtered(lambda o: o.price >= vals.get('price')):
+                raise UserError(
+                    "You cannot create an offer with a lower or equal amount than an existing offer.")
+
+            # Cập nhật trạng thái của bất động sản thành ‘Offer Received’
+            estate_property.state = 'offer_received'
+
+        return super(EstatePropertyOffer, self).create(vals)

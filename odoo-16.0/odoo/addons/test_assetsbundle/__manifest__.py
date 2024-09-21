@@ -8,7 +8,7 @@
     'installable': True,
     'data': [
         "data/ir_asset.xml",
-        "views/views.xml",
+        "views/library_book_views.xml",
     ],
 
     'assets': {
