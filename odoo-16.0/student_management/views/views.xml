@@ -14,6 +14,8 @@
                         <field name="display_name" string="Display Name" readonly="1"/>
                         <field name="email" string="Email"/>
                         <field name="phone" string="Phone Number"/>
+                        <button name="action_open_partner_contacts" type="object" string="View Contacts"/>
+
                     </group>
                 </sheet>
             </form>
