@@ -10,8 +10,14 @@ class LibraryBook(models.Model):
     name = fields.Char(string="Book Name", required=True)
     publish_year = fields.Date(string="Publish Year")
     author = fields.Char(string="Author")
-    student_id = fields.Many2one('list.student', string="Borrowed by Student", domain=[('is_student', '=', True)])
-
+    student_ids = fields.Many2many(
+        'list.student',
+        'student_book_rel',  # Tên bảng quan hệ
+        'book_id',  # Tên trường lưu trữ ID sách
+        'student_id',  # Tên trường lưu trữ ID sinh viên
+        string="Borrowed by Students",
+        domain=[('is_student', '=', True)]
+    )
     count_student_borrow = fields.Integer(compute='_compute_count_student_borrow', string="Number of Students")
 
     @api.model
@@ -20,7 +26,7 @@ class LibraryBook(models.Model):
         new_code = int(last_code[2:]) + 1 if last_code else 1
         return f'TV{str(new_code).zfill(5)}'
 
-    @api.depends('student_id')
+    @api.depends('student_ids')
     def _compute_count_student_borrow(self):
         for record in self:
-            record.count_student_borrow = len(record.student_id) if record.student_id else 0
+            record.count_student_borrow = len(record.student_ids)

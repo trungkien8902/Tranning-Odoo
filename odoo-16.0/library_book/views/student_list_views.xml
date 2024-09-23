@@ -10,10 +10,10 @@
                     <group>
                         <field name="student_code" string="Student Code"/>
                         <field name="name" string="Full Name"/>
+                        <field name="borrowed_books_ids" string="Borrowed Book" store="True"/>
                         <field name="email" string="Email"/>
                         <field name="phone" string="Phone"/>
                         <field name="is_student" string="Is a Student"/>
-
                     </group>
                 </sheet>
             </form>
@@ -30,7 +30,21 @@
                 <field name="name" string="Full Name"/>
                 <field name="email" string="Email"/>
                 <field name="phone" string="Phone"/>
+                <field name="book_count"/>
+
             </tree>
+        </field>
+    </record>
+
+    <record id="view_student_borrowed_search" model="ir.ui.view">
+        <field name="name">Student Borrowed Search</field>
+        <field name="model">list.student</field>
+        <field name="arch" type="xml">
+            <search string="Search Students">
+                <field name="name"/>
+                <field name="student_code"/>
+<!--                <filter string="Has Borrowed Books" domain="[('book_count', '>', 0)]"/>-->
+            </search>
         </field>
     </record>
 </odoo>

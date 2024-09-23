@@ -60,16 +60,4 @@
         </field>
     </record>
 
-<!--    <odoo>-->
-<!--    &lt;!&ndash; Search view for student.student &ndash;&gt;-->
-<!--    <record id="view_student_search" model="ir.ui.view">-->
-<!--        <field name="name">Student Management Search</field>-->
-<!--        <field name="model">student.management</field>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <search>-->
-<!--                <field name="name"/>-->
-<!--                <filter string="Borrowed Books" domain="[('borrowed_book_count', '>', 0)]"/>-->
-<!--            </search>-->
-<!--        </field>-->
-<!--    </record>-->
 </odoo>

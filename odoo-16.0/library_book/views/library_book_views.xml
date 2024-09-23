@@ -8,7 +8,7 @@
                 <field name="name"/>
                 <field name="author"/>
                 <field name="count_student_borrow"/>
-                <field name="student_id"/>
+                <field name="student_ids"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_card">
@@ -22,18 +22,17 @@
                                     Not borrowed yet.
                                 </t>
                             </div>
-                            <a type="action" name="%(action_view_students_borrowed)d"
+                            <button type="action" name="%(action_view_students_borrowed)d"
                                 class="btn btn-primary mt8"
-                                context="{'student_id': student_id}">
+                                context="{'student_ids': student_ids}">
                                 View Students
-                            </a>
+                            </button>
                         </div>
                     </t>
                 </templates>
             </kanban>
         </field>
     </record>
-
 
     <!-- List View -->
     <record id="view_library_book_list" model="ir.ui.view">
@@ -45,7 +44,7 @@
                 <field name="name"/>
                 <field name="author"/>
                 <field name="publish_year"/>
-                <field name="student_id"/>
+                <field name="student_ids"/>
             </tree>
         </field>
     </record>
@@ -61,7 +60,7 @@
                     <field name="name"/>
                     <field name="author"/>
                     <field name="publish_year"/>
-                    <field name="student_id"/>
+<!--                    <field name="student_ids"/>-->
                 </group>
             </form>
         </field>
