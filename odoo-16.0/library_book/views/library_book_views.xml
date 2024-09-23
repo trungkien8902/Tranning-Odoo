@@ -8,7 +8,7 @@
                 <field name="name"/>
                 <field name="author"/>
                 <field name="count_student_borrow"/>
-                <field name="student_ids"/>
+                <field name="student_id"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_card">
@@ -24,7 +24,7 @@
                             </div>
                             <button type="action" name="%(action_view_students_borrowed)d"
                                 class="btn btn-primary mt8"
-                                context="{'student_ids': student_ids}">
+                                context="{'student_id': student_id}">
                                 View Students
                             </button>
                         </div>
@@ -44,7 +44,7 @@
                 <field name="name"/>
                 <field name="author"/>
                 <field name="publish_year"/>
-                <field name="student_ids"/>
+                <field name="student_id"/>
             </tree>
         </field>
     </record>
@@ -60,7 +60,7 @@
                     <field name="name"/>
                     <field name="author"/>
                     <field name="publish_year"/>
-<!--                    <field name="student_ids"/>-->
+                    <field name="student_id"/>
                 </group>
             </form>
         </field>

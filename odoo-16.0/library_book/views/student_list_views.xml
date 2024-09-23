@@ -10,7 +10,7 @@
                     <group>
                         <field name="student_code" string="Student Code"/>
                         <field name="name" string="Full Name"/>
-                        <field name="borrowed_books_ids" string="Borrowed Book" store="True"/>
+                        <field name="book_ids" string="Borrowed Book"/>
                         <field name="email" string="Email"/>
                         <field name="phone" string="Phone"/>
                         <field name="is_student" string="Is a Student"/>

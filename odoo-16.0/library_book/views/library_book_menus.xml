@@ -18,8 +18,8 @@
     <record id="action_view_students_borrowed" model="ir.actions.act_window">
         <field name="name">Students Borrowed</field>
         <field name="res_model">list.student</field>
-        <field name="view_mode">tree</field>
-        <field name="domain">[('id', '=', context.get('student_ids'))]</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('id', '=', context.get('student_id'))]</field>
     </record>
 
     <!-- Menu -->
