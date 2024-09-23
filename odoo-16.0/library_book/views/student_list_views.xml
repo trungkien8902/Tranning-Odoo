@@ -31,7 +31,6 @@
                 <field name="email" string="Email"/>
                 <field name="phone" string="Phone"/>
                 <field name="book_count"/>
-
             </tree>
         </field>
     </record>
@@ -43,7 +42,7 @@
             <search string="Search Students">
                 <field name="name"/>
                 <field name="student_code"/>
-<!--                <filter string="Has Borrowed Books" domain="[('book_count', '>', 0)]"/>-->
+                <filter string="Has Borrowed Books" name="book_count" domain="[('book_count', '>', 0)]"/>
             </search>
         </field>
     </record>
