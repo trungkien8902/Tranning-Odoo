@@ -11,8 +11,8 @@
     'depends': ['base','hr'],
     'data': [
         'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        # 'views/views.xml',
+        # 'views/templates.xml',
         'views/employee_inherit_views.xml'
     ],
     'demo': [

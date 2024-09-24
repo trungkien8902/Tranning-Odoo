@@ -8,7 +8,7 @@ class EmployeeSkills(models.Model):
     _description = "Employee Skills"
 
     name = fields.Char(string="Skills Name", required=True)
-    description = fields.Char(string="Skills Description", required=True)
+    description = fields.Char(string="Skills Description")
     proficiency_level = fields.Selection([
         ('beginner', 'Beginner'),
         ('intermediate', 'Intermediate'),

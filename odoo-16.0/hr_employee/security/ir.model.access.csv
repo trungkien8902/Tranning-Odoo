@@ -1,4 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_hr_employee_hr_employee,hr_employee.hr_employee,model_hr_employee_hr_employee,base.group_user,1,1,1,1
+access_hr_employee,hr_employee,model_hr_employee,base.group_user,1,1,1,1
 access_employee_certifications,employee_certifications,model_employee_certifications,base.group_user,1,1,1,1
 access_employee_skills,employee_skills,model_employee_skills,base.group_user,1,1,1,1
