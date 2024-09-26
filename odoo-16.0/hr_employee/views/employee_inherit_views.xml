@@ -9,7 +9,7 @@
             </xpath>
             <notebook position="inside">
                 <page string="Certifications">
-                    <field name="certifications_id">
+                    <field name="certification_ids">
                         <tree editable="bottom">
                             <field name="name"/>
                             <field name="date_received"/>
@@ -18,7 +18,7 @@
                     </field>
                 </page>
                 <page string="Skills">
-                    <field name="skills_id">
+                    <field name="skill_ids">
                         <tree editable="bottom">
                             <field name="name"/>
                             <field name="proficiency_level"/>

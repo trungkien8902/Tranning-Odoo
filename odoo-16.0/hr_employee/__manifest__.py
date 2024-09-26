@@ -10,10 +10,12 @@
     'version': '0.1',
     'depends': ['base','hr'],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         # 'views/views.xml',
         # 'views/templates.xml',
-        'views/employee_inherit_views.xml'
+        'views/employee_inherit_views.xml',
+        'views/wizard_views.xml'
     ],
     'demo': [
         # 'demo/demo.xml',

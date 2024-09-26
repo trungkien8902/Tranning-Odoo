@@ -1,0 +1,39 @@
+<odoo>
+    <record id="view_employee_bulk_update_wizard_form" model="ir.ui.view">
+        <field name="name">employee.bulk.update.wizard.form</field>
+        <field name="model">employee.bulk.update.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Employee Bulk Update Wizard">
+                <group>
+                    <group>
+                        <field name="department_id"/>
+                        <field name="job_id"/>
+                        <field name="min_experience"/>
+                    </group>
+                    <group>
+                        <field name="certification_id"/>
+                        <field name="skill_id"/>
+                    </group>
+                </group>
+                <separator string="Selected Employees" colspan="4"/>
+                <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}" readonly="1"/>
+                <footer>
+                    <button name="action_update_employees" type="object" string="Update Employees" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_employee_bulk_update_wizard" model="ir.actions.act_window">
+        <field name="name">Employee Bulk Update Wizard</field>
+        <field name="res_model">employee.bulk.update.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_employee_bulk_update_wizard"
+              name="Employee Bulk Update"
+              parent="hr.menu_hr_root"
+              action="action_employee_bulk_update_wizard"/>
+</odoo>

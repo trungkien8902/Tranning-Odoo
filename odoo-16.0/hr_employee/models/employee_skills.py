@@ -4,8 +4,8 @@ from odoo.fields import Many2one, Boolean
 
 
 class EmployeeSkills(models.Model):
-    _name = "employee.skills"
-    _description = "Employee Skills"
+    _name = "employee.skill"
+    _description = "Employee Skill"
 
     name = fields.Char(string="Skills Name", required=True)
     description = fields.Char(string="Skills Description")
@@ -16,4 +16,4 @@ class EmployeeSkills(models.Model):
         ('expert', 'Expert')
     ], string="Proficiency Level", default='beginner')
     years_of_experience = fields.Integer(string="Years of Experience", help="Years of experience with this skill")
-    employee_id = fields.Many2one('hr.employee', ondelete='cascade')
+    employee_ids = fields.Many2one('hr.employee', ondelete='cascade')

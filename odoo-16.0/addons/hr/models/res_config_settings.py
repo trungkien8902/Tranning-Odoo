@@ -8,6 +8,8 @@ from odoo.exceptions import ValidationError
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
+    unsplash_access_key = fields.Char(string="Unsplash Access Key")
+
     resource_calendar_id = fields.Many2one(
         'resource.calendar', 'Company Working Hours',
         related='company_id.resource_calendar_id', readonly=False)
