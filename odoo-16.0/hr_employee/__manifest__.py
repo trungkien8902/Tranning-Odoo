@@ -12,10 +12,9 @@
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
-        # 'views/views.xml',
-        # 'views/templates.xml',
+        'wizard/wizard_views.xml',
         'views/employee_inherit_views.xml',
-        'views/wizard_views.xml'
+        # 'views/res_partner_views.xml'
     ],
     'demo': [
         # 'demo/demo.xml',

@@ -7,25 +7,35 @@
             <xpath expr="//sheet/group/group" position="inside">
                 <field name="years_of_experience"/>
             </xpath>
+            <xpath expr="//sheet" position="inside">
+                <field name="is_manager" invisible="1"/>
+            </xpath>
             <notebook position="inside">
                 <page string="Certifications">
                     <field name="certification_ids">
                         <tree editable="bottom">
                             <field name="name"/>
+                            <field name="description"/>
                             <field name="date_received"/>
-                            <field name="years"/>
                         </tree>
                     </field>
+
                 </page>
                 <page string="Skills">
-                    <field name="skill_ids">
-                        <tree editable="bottom">
-                            <field name="name"/>
-                            <field name="proficiency_level"/>
-                            <field name="years_of_experience"/>
-                        </tree>
-                    </field>
+                     <field name="skill_ids"
+                            attrs="{'invisible': [('certification_ids', '=', False)],
+                            'readonly': [('is_manager', '=', False)]}"/>
+
                 </page>
+<!--                <page string="Skills">-->
+<!--                    <field name="skill_ids">-->
+<!--                        <tree editable="bottom">-->
+<!--                            <field name="name"/>-->
+<!--                            <field name="description"/>-->
+<!--                            <field name="proficiency_level"/>-->
+<!--                        </tree>-->
+<!--                    </field>-->
+<!--                </page>-->
             </notebook>
         </field>
     </record>

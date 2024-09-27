@@ -9,6 +9,8 @@
             web_icon="hr,static/description/icon.svg"
             sequence="185"/>
 
+        <!--Test-->
+
         <menuitem
             id="menu_hr_main"
             name="Human Resources"

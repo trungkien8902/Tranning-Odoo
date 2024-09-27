@@ -1,4 +1,6 @@
 <odoo>
+
+
     <record id="view_employee_bulk_update_wizard_form" model="ir.ui.view">
         <field name="name">employee.bulk.update.wizard.form</field>
         <field name="model">employee.bulk.update.wizard</field>
@@ -16,7 +18,7 @@
                     </group>
                 </group>
                 <separator string="Selected Employees" colspan="4"/>
-                <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}" readonly="1"/>
+                <field name="employee_ids" widget="many2many_checkboxes" options="{'no_create': True}"/>
                 <footer>
                     <button name="action_update_employees" type="object" string="Update Employees" class="btn-primary"/>
                     <button string="Cancel" class="btn-secondary" special="cancel"/>
@@ -29,11 +31,14 @@
         <field name="name">Employee Bulk Update Wizard</field>
         <field name="res_model">employee.bulk.update.wizard</field>
         <field name="view_mode">form</field>
+        <field name="view_id" ref="view_employee_bulk_update_wizard_form"/>
         <field name="target">new</field>
     </record>
 
     <menuitem id="menu_employee_bulk_update_wizard"
               name="Employee Bulk Update"
-              parent="hr.menu_hr_root"
+              parent="hr.menu_hr_employee_payroll"
+              sequence="20"
               action="action_employee_bulk_update_wizard"/>
+
 </odoo>

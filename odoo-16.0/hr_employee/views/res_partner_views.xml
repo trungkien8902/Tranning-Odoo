@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="payment_token_count" model="res.partner">
+        <field name="payment_token_count" readonly="1"/>
+    </record>
+</odoo>
