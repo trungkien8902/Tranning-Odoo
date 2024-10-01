@@ -14,4 +14,10 @@ class EmployeeSkills(models.Model):
         ('advanced', 'Advanced'),
         ('expert', 'Expert')
     ], string="Proficiency Level", default='beginner')
-    employee_ids = fields.Many2one('hr.employee', ondelete='cascade')
+    employee_ids = fields.Many2many(
+        'hr.employee',
+        'employee_skill_rel',
+        'skill_id',
+        'employee_id',
+        string="Employees"
+    )

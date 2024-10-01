@@ -1,0 +1,31 @@
+<odoo>
+    <record id="view_certification_tree" model="ir.ui.view">
+        <field name="name">Certification List View</field>
+        <field name="model">employee.certification</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="date_received"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_certification_form" model="ir.ui.view">
+        <field name="name">Certification Form View</field>
+        <field name="model">employee.certification</field>
+        <field name="arch" type="xml">
+            <form string="Certification">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="date_received"/>
+                        <field name="employee_ids" context="{'default_employee_ids': active_id}" invisible="1"/>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+</odoo>

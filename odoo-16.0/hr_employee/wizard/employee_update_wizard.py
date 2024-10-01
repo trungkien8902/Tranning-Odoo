@@ -2,9 +2,9 @@ from odoo import models, fields, api
 from odoo.exceptions import UserError
 
 
-class EmployeeBulkUpdateWizard(models.TransientModel):
-    _name = 'employee.bulk.update.wizard'
-    _description = 'Employee Bulk Update Wizard'
+class EmployeeUpdateWizard(models.TransientModel):
+    _name = 'employee.update.wizard'
+    _description = 'Employee Update Wizard'
 
     department_id = fields.Many2one('hr.department', string="Department")
     job_id = fields.Many2one('hr.job', string="Job Position")
@@ -40,10 +40,12 @@ class EmployeeBulkUpdateWizard(models.TransientModel):
         for employee in self.employee_ids:
             if employee.years_of_experience >= 5:
                 if self.certification_id:
-                    employee.skill_ids = [(4, self.certification_id.id)]
+                    employee.certification_ids = [(4, cert.id) for cert in self.certification_id]
                 if self.skill_id:
-                    employee.skill_ids = [(4, self.skill_id.id)]
+                    employee.skill_ids = [(4, skill.id) for skill in self.skill_id]
                 updated_count += 1
+            else:
+                raise UserError("Only employees with more than 5 years of experience can be updated.")
 
         return {
             'type': 'ir.actions.client',
@@ -55,3 +57,4 @@ class EmployeeBulkUpdateWizard(models.TransientModel):
                 'sticky': False,
             }
         }
+

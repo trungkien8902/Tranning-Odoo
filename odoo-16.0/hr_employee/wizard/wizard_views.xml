@@ -1,11 +1,10 @@
 <odoo>
 
-
-    <record id="view_employee_bulk_update_wizard_form" model="ir.ui.view">
-        <field name="name">employee.bulk.update.wizard.form</field>
-        <field name="model">employee.bulk.update.wizard</field>
+    <record id="view_employee_update_wizard_form" model="ir.ui.view">
+        <field name="name">employee.update.wizard.form</field>
+        <field name="model">employee.update.wizard</field>
         <field name="arch" type="xml">
-            <form string="Employee Bulk Update Wizard">
+            <form string="Employee Update Wizard">
                 <group>
                     <group>
                         <field name="department_id"/>
@@ -27,18 +26,18 @@
         </field>
     </record>
 
-    <record id="action_employee_bulk_update_wizard" model="ir.actions.act_window">
-        <field name="name">Employee Bulk Update Wizard</field>
-        <field name="res_model">employee.bulk.update.wizard</field>
+    <record id="action_employee_update_wizard" model="ir.actions.act_window">
+        <field name="name">Employee Update Wizard</field>
+        <field name="res_model">employee.update.wizard</field>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="view_employee_bulk_update_wizard_form"/>
+        <field name="view_id" ref="view_employee_update_wizard_form"/>
         <field name="target">new</field>
     </record>
 
-    <menuitem id="menu_employee_bulk_update_wizard"
-              name="Employee Bulk Update"
-              parent="hr.menu_hr_employee_payroll"
-              sequence="20"
-              action="action_employee_bulk_update_wizard"/>
+    <menuitem id="menu_employee_update_wizard"
+          name="Employee Update"
+          parent="hr.menu_hr_root"
+          sequence="20"
+          action="action_employee_update_wizard"/>
 
 </odoo>

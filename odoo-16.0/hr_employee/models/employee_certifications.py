@@ -9,4 +9,10 @@ class EmployeeCertifications(models.Model):
     name = fields.Char(string="Certification Name", required=True)
     description = fields.Char(string="Certification Description")
     date_received = fields.Date(string="Date Received")
-    employee_ids = fields.Many2one('hr.employee', ondelete='cascade')
+    employee_ids = fields.Many2many(
+        'hr.employee',
+        'employee_certification_rel',
+        'certification_id',
+        'employee_id',
+        string="Employees"
+    )

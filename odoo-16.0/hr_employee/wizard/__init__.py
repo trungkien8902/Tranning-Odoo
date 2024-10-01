@@ -1,1 +1,1 @@
-from . import bulk_update_wizard
+from . import employee_update_wizard

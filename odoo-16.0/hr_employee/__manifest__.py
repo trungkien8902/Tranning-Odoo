@@ -14,6 +14,10 @@
         'security/ir.model.access.csv',
         'wizard/wizard_views.xml',
         'views/employee_inherit_views.xml',
+        'views/certification_views.xml',
+        'views/skill_views.xml',
+
+        # 'data/cron_job.xml'
         # 'views/res_partner_views.xml'
     ],
     'demo': [
