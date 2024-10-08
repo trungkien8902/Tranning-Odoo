@@ -38,6 +38,7 @@
           name="Employee Update"
           parent="hr.menu_hr_root"
           sequence="20"
-          action="action_employee_update_wizard"/>
+          action="action_employee_update_wizard"
+          groups="hr_employee.group_advanced_employee_experience_manager"/>
 
 </odoo>

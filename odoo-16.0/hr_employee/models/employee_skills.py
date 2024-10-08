@@ -1,5 +1,6 @@
 from odoo import fields, models, api
 from odoo.api import ondelete
+from odoo.exceptions import UserError
 from odoo.fields import Many2one, Boolean
 
 class EmployeeSkills(models.Model):
@@ -21,3 +22,14 @@ class EmployeeSkills(models.Model):
         'employee_id',
         string="Employees"
     )
+    certification_id = fields.Many2one(
+        'employee.certification',
+        string="Certification",
+        ondelete='restrict',
+        required=True
+    )
+
+    @api.model
+    def check_skill_manager_rights(self):
+        if not self.env.user.has_group('hr_employee.group_skill_manager'):
+            raise UserError("You do not have the necessary permissions to access this skill.")

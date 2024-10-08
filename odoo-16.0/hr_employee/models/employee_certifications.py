@@ -16,3 +16,8 @@ class EmployeeCertifications(models.Model):
         'employee_id',
         string="Employees"
     )
+    related_skill_ids = fields.One2many(
+        'employee.skill',
+        'certification_id',
+        string='Related Skills'
+    )

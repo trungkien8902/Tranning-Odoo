@@ -1,13 +1,13 @@
 <odoo>
-    <record id="view_employee_form_inherit" model="ir.ui.view">
-        <field name="name">HR Employee Form Inherit</field>
+     <record id="view_employee_form" model="ir.ui.view">
+        <field name="name">view.employee.form</field>
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//sheet/group/group" position="inside">
-                <field name="years_of_experience"/>
-                <field name="manage_certifications"/>
-                <field name="manage_skills"/>
+            <xpath expr="//sheet/group" position="inside">
+                <group>
+                    <field name="years_of_experience" string="Years of Experience"/>
+                </group>
             </xpath>
         </field>
     </record>
@@ -18,29 +18,55 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="priority" eval="1000"/>
         <field name="arch" type="xml">
-            <div name="button_box" position="inside">
-                <field name="skill_count" invisible="1"/>
-                <button name="action_view_skills"
-                    class="oe_stat_button"
-                    icon="fa-lightbulb-o"
-                    type="object">
-                    <div class="o_field_widget o_stat_info">
-                        <span class="o_stat_value"><field name="skill_count"/></span>
-                        <span class="o_stat_text">Skills</span>
-                    </div>
-                </button>
 
+            <xpath expr="//div[@name='button_box']" position="inside">
                 <field name="certification_count" invisible="1"/>
+                <field name="certification_ids" invisible="1"/>
+
                 <button name="action_view_certifications"
                     class="oe_stat_button"
                     icon="fa-certificate"
-                    type="object">
+                    type="object"
+                    groups="hr.group_hr_user">
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_value"><field name="certification_count"/></span>
                         <span class="o_stat_text">Certifications</span>
                     </div>
                 </button>
-            </div>
+
+                <field name="skill_count" invisible="1"/>
+                <button name="action_view_skills"
+                    class="oe_stat_button"
+                    icon="fa-lightbulb-o"
+                    type="object"
+                    groups="hr.group_hr_user"
+                    attrs="{'invisible': [('certification_count', '=', 0)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"><field name="skill_count"/></span>
+                        <span class="o_stat_text">Skills</span>
+                    </div>
+                </button>
+                 <button name="action_open_skill_wizard"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-lightbulb-o"
+                    string="Update Skills from Certifications"
+                    groups="hr_employee.group_advanced_employee_experience_manager">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Update Skills</span>
+                    </div>
+                </button>
+                <button name="action_update_skills_automatically"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-lightbulb-o"
+                    string="Auto Update Skills"
+                    groups="hr_employee.group_advanced_employee_experience_manager">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Auto Update Skills</span>
+                    </div>
+                </button>
+            </xpath>
 
         </field>
     </record>

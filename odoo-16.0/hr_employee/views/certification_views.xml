@@ -21,6 +21,7 @@
                         <field name="name"/>
                         <field name="description"/>
                         <field name="date_received"/>
+                        <field name="related_skill_ids"/>
                         <field name="employee_ids" context="{'default_employee_ids': active_id}" invisible="1"/>
                     </group>
                 </sheet>

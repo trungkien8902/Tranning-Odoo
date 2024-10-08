@@ -3,6 +3,9 @@ from email.policy import default
 from odoo import fields, models, api
 from odoo.exceptions import UserError, AccessError
 from odoo.tools.populate import compute
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class Employee(models.Model):
@@ -25,15 +28,6 @@ class Employee(models.Model):
         'employee_id',
         'skill_id',
         string="Skills"
-    )
-
-    manage_certifications = fields.Boolean(
-        string="Manage Certifications",
-        groups="hr.group_hr_manager"
-    )
-    manage_skills = fields.Boolean(
-        string="Manage Skills",
-        groups="hr.group_hr_manager"
     )
 
     @api.depends('certification_ids')
@@ -134,23 +128,134 @@ class Employee(models.Model):
             }
         }
 
-    @api.onchange('years_of_experience', 'certification_ids', 'skill_ids')
-    def _check_manage_certification_permissions(self):
+    # @api.onchange('years_of_experience', 'certification_ids', 'skill_ids')
+    # def _check_manage_certification_permissions(self):
+    #     for employee in self:
+    #         if employee.certification_count >= 3:
+    #             employee.manage_certifications = True
+    #         else:
+    #             employee.manage_certifications = False
+    #
+    # def _check_manage_skill_permissions(self):
+    #     for employee in self:
+    #         if employee.skill_count >= 3 and any(skill.name == 'manage' for skill in employee.skill_ids):
+    #             employee.manage_skills = True
+    #         else:
+    #             employee.manage_skills = False
+
+    # def unlink(self):
+    #     if self.env.user.has_group('hr.group_hr_user'):
+    #         raise AccessError("You do not have permission to delete employees.")
+    #     return super(Employee, self).unlink()
+
+    def action_open_skill_wizard(self):
+        certifications = self.certification_ids
+
+        if not certifications:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'Warning!',
+                    'message': 'This employee has no certifications. Cannot update skills.',
+                    'type': 'warning',
+                    'sticky': False,
+                }
+            }
+
+        related_skills = certifications.mapped('related_skill_ids')
+
+        if not related_skills:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'Warning!',
+                    'message': 'No skills found for the selected certifications. Cannot update skills.',
+                    'type': 'warning',
+                    'sticky': False,
+                }
+            }
+
+        return {
+            'name': 'Update Skills from Certifications',
+            'type': 'ir.actions.act_window',
+            'res_model': 'skill.update.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_employee_id': self.id,
+                'default_certification_ids': certifications.ids,
+                'default_skill_ids': related_skills.ids,
+            }
+        }
+
+    def action_update_skills_automatically(self):
+        certifications = self.certification_ids
+
+        if not certifications:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'Warning!',
+                    'message': 'This employee has no certifications. Cannot update skills.',
+                    'type': 'warning',
+                    'sticky': False,
+                }
+            }
+
+        new_skills = certifications.mapped('related_skill_ids')
+        if not new_skills:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'Warning!',
+                    'message': 'No skills are linked to the certifications. Cannot update skills.',
+                    'type': 'warning',
+                    'sticky': False,
+                }
+            }
+
+        self.skill_ids = [(6, 0, new_skills.ids)]
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Success',
+                'message': 'Skills updated successfully based on certifications.',
+                'type': 'success',
+                'sticky': False,
+            }
+        }
+
+    def write(self, vals):
+        if 'certification_ids' in vals:
+            self._check_skills_limits(vals.get('certification_ids'))
+
+        return super(Employee, self).write(vals)
+
+
+    @api.model
+    def create(self, vals):
+        if 'certification_ids' in vals:
+            self._check_skills_limits(vals.get('certification_ids'))
+
+        return super(Employee, self).create(vals)
+
+    def _check_skills_limits(self, certification_ids):
+        max_skills = 10
+
         for employee in self:
-            if employee.certification_count >= 3:
-                employee.manage_certifications = True
-            else:
-                employee.manage_certifications = False
+            new_certifications = self.env['employee.certification'].browse(certification_ids[0][2])
+            new_skills = new_certifications.mapped('related_skill_ids')
 
-    def _check_manage_skill_permissions(self):
-        for employee in self:
-            if employee.skill_count >= 3 and any(skill.name == 'manage' for skill in employee.skill_ids):
-                employee.manage_skills = True
-            else:
-                employee.manage_skills = False
+            total_skills = len(employee.skill_ids | new_skills)
 
-    def unlink(self):
-        if self.env.user.has_group('hr.group_hr_manager'):
-            raise AccessError("You do not have permission to delete employees.")
-        return super(Employee, self).unlink()
+            if total_skills > max_skills:
+                raise UserError(
+                    f"Employee {employee.name} cannot have more than {max_skills} skills. Current: {total_skills}")
 
+            employee.skill_ids = [(4, skill.id) for skill in new_skills]
